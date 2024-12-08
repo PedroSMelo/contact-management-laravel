@@ -19,7 +19,16 @@
 
                 <div class="mb-3">
                     <label for="contact" class="form-label">Contact</label>
-                    <input type="text" name="contact" id="contact" class="form-control @error('contact') is-invalid @enderror" value="{{ old('contact') }}" required>
+                    <input type="text" 
+                        name="contact" 
+                        id="contact" 
+                        class="form-control @error('contact') is-invalid @enderror" 
+                        value="{{ old('contact') }}" 
+                        required 
+                        placeholder="912345678"
+                        pattern="9\d{8}" 
+                        title="The phone number must have 9 digits and start with 9."
+                        maxlength="9">
                     @error('contact')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
