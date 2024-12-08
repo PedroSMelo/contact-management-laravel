@@ -3,7 +3,6 @@
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProfileController;
-// use App\Models\Contact;
 use Illuminate\Support\Facades\Route;
 
 /*

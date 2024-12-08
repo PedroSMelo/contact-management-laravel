@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\ContactRequest;
 use App\Models\Contact;
 
 class ContactController extends Controller
 {
-
-    
     public function index()
     {
         $contacts = Contact::all();
@@ -20,15 +18,9 @@ class ContactController extends Controller
         return view('contacts.create');
     }
 
-    public function store(Request $request)
+    public function store(ContactRequest $request)
     {
-        $request->validate([
-            'name' => 'required|string|min:5',
-            'contact' => 'required|digits:9|unique:contacts',
-            'email' => 'required|email|unique:contacts',
-        ]);
-
-        Contact::create($request->all());
+        Contact::create($request->validated());
 
         return redirect()->route('contacts.index');
     }
@@ -45,16 +37,10 @@ class ContactController extends Controller
         return view('contacts.edit', compact('contact'));
     }
 
-    public function update(Request $request, $id)
+    public function update(ContactRequest $request, $id)
     {
-        $request->validate([
-            'name' => 'required|string|min:5',
-            'contact' => 'required|digits:9|unique:contacts,contact,' . $id,
-            'email' => 'required|email|unique:contacts,email,' . $id,
-        ]);
-
         $contact = Contact::findOrFail($id);
-        $contact->update($request->all());
+        $contact->update($request->validated());
 
         return redirect()->route('contacts.index');
     }
@@ -67,4 +53,3 @@ class ContactController extends Controller
         return redirect()->route('contacts.index');
     }
 }
-
