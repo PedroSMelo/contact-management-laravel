@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\ProfileController;
+// use App\Models\Contact;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,5 +18,18 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    $contacts = App\Models\Contact::all();
+    return view('contacts.index', compact('contacts')); 
+})->name('index');
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::resource('/contacts', ContactController::class); 
 });
+
+Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('/');
+
+require __DIR__.'/auth.php'; 
